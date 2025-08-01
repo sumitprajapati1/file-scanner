@@ -53,6 +53,7 @@ export const FileList = ({ refreshTrigger, statusFilter }: FileListProps) => {
       if (!response.ok) throw new Error('Failed to fetch files');
       
       const data = await response.json();
+      console.log('Received files data:', data.files);
       setFiles(data.files);
       setPagination(data.pagination);
     } catch (error) {
@@ -106,6 +107,19 @@ export const FileList = ({ refreshTrigger, statusFilter }: FileListProps) => {
   };
 
   const handleDelete = async (fileId: string, filename: string) => {
+    console.log(`Delete request for file: ${filename}, ID: "${fileId}" (type: ${typeof fileId})`);
+    
+    // Validate fileId before making the request
+    if (!fileId || fileId === 'undefined' || fileId === 'null') {
+      console.error(`Invalid file ID detected: "${fileId}"`);
+      toast({
+        title: "Error",
+        description: "Invalid file ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const response = await fetch(`http://localhost:3000/api/files/${fileId}`, {
         method: 'DELETE',
