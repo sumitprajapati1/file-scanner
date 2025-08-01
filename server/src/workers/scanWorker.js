@@ -38,7 +38,7 @@ class ScanWorker {
   }
 
   async connectToQueue() {
-    const rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+    const rabbitmqUrl = process.env.RABBITMQ_URL;
     
     this.connection = await amqp.connect(rabbitmqUrl);
     this.channel = await this.connection.createChannel();

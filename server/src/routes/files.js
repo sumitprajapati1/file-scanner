@@ -130,6 +130,12 @@ router.get('/files', async (req, res) => {
       .limit(Number(limit))
       .select('-hash -path'); // Exclude sensitive fields
 
+    // Transform files to ensure proper ID mapping
+    const transformedFiles = files.map(file => ({
+      ...file.toObject(),
+      id: file._id.toString()
+    }));
+
     // Get total count for pagination
     const totalFiles = await File.countDocuments(filter);
     const totalPages = Math.ceil(totalFiles / Number(limit));
@@ -138,7 +144,7 @@ router.get('/files', async (req, res) => {
     const queueStats = await getQueueStats();
 
     res.json({
-      files,
+      files: transformedFiles,
       pagination: {
         currentPage: Number(page),
         totalPages,
@@ -167,6 +173,14 @@ router.get('/files/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Validate the ID parameter
+    if (!id || id === 'undefined' || id === 'null') {
+      return res.status(400).json({
+        error: 'Invalid file ID',
+        message: 'The provided file ID is invalid'
+      });
+    }
+
     const file = await File.findById(id).select('-hash -path');
     if (!file) {
       return res.status(404).json({
@@ -175,7 +189,13 @@ router.get('/files/:id', async (req, res) => {
       });
     }
 
-    res.json({ file });
+    // Transform file to ensure proper ID mapping
+    const transformedFile = {
+      ...file.toObject(),
+      id: file._id.toString()
+    };
+
+    res.json({ file: transformedFile });
 
   } catch (error) {
     console.error('Error fetching file:', error);
@@ -190,6 +210,17 @@ router.get('/files/:id', async (req, res) => {
 router.delete('/files/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    console.log(`Delete request received for file ID: "${id}" (type: ${typeof id})`);
+
+    // Validate the ID parameter
+    if (!id || id === 'undefined' || id === 'null') {
+      console.error(`Invalid file ID received: "${id}"`);
+      return res.status(400).json({
+        error: 'Invalid file ID',
+        message: 'The provided file ID is invalid'
+      });
+    }
 
     const file = await File.findById(id);
     if (!file) {

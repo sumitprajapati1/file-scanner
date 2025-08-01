@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "node server.js",
-    "worker": "node src/workers/scanWorker.js",
+    "start": "node --watch server.js",
+    "dev": "node --watch server.js",
+    "worker": "node --watch src/workers/scanWorker.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run worker\""
   },
   "keywords": [],
