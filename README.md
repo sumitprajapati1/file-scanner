@@ -1,3 +1,43 @@
+# 🔐 Secure File Upload and Malware Scanning
+
+A full-stack project for the CyberXplore Developer Challenge. It allows users to upload files (PDF, DOCX, JPG, PNG), simulates malware scanning asynchronously using RabbitMQ, and displays real-time scan results on a responsive dashboard.
+
+---
+
+## 📌 Features
+
+- File Upload (max 5MB)
+- Asynchronous Malware Scanning (via RabbitMQ)
+- MongoDB for metadata storage
+- Real-Time Dashboard
+- Clean,Infected, Pending file status
+- Optional Slack/Webhook notifications for infected files
+
+---
+
+## 🧰 Tech Stack
+
+| Layer     | Tech                                      |
+|-----------|-------------------------------------------|
+| Backend   | Node.js, TypeScript, Express.js           |
+| Frontend  | React.js / Next.js                        |
+| Database  | MongoDB                                   |
+| Queue     | RabbitMQ (required)                       |
+| Optional  | Redis (for caching/deduplication)         |
+
+---
+
+## 📁 Project Structure
+
+## ⚙️ Prerequisites
+
+- Node.js v18+
+- MongoDB (local or MongoDB Atlas)
+- RabbitMQ (local or hosted)
+- npm / yarn
+
+---
+
 
 ## Run Locally
 
