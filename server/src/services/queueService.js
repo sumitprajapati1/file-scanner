@@ -7,7 +7,7 @@ const QUEUE_NAME = 'file_scan_queue';
 
 export const initializeQueue = async () => {
   try {
-    const rabbitmqUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+    const rabbitmqUrl = process.env.RABBITMQ_URL;
         
     connection = await amqp.connect(rabbitmqUrl);
     channel = await connection.createChannel();
